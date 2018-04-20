@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-// const { mysecret } = require('../../config');
+//const { mysecret } = require('../../config');
 const { makeToken } = require('../utils/middlewares');
 const User = require('../models/userModels');
 
@@ -23,7 +23,7 @@ const login = (req, res) => {
       }
       if (hashMatch) {
         // const payload = {
-        //   username: user.username
+        //   username: user.username,
         // }; // what will determine our payload.
         //const token = jwt.sign(payload, mysecret); // creates our JWT with a secret and a payload and a hash.
         const token = makeToken(user);
