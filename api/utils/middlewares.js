@@ -14,11 +14,27 @@ const authenticate = (req, res, next) => {
     });
   } else {
     return res.status(403).json({
-      error: 'No token provided, must be set on the Authorization Header'
+      error: 'No token provided, must be set on the Authorization Header',
     });
   }
 };
 
+// Add in the make token function
+const makeToken = user => {
+  // sub: subject (id) who the token is about
+  // iat: issued at time
+  const timestamp = new Date().getTime();
+  const payload = {
+    sub: user._id,
+    iat: timestamp,
+    username: user.username,
+  };
+  const options = { expiresIn: '4h' };
+
+  return jwt.sign(payload, mysecret, options);
+};
+
 module.exports = {
-  authenticate
+  authenticate,
+  makeToken,
 };
