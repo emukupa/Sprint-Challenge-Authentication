@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
-const { mysecret } = require('../../config');
+// const { mysecret } = require('../../config');
+const { makeToken } = require('../utils/middlewares');
 const User = require('../models/userModels');
 
 const login = (req, res) => {
@@ -13,6 +14,7 @@ const login = (req, res) => {
       res.status(422).json({ error: 'No user with that username in our DB' });
       return;
     }
+
     user.checkPassword(password, (nonMatch, hashMatch) => {
       // This is an example of using our User.method from our model.
       if (nonMatch !== null) {
@@ -20,10 +22,11 @@ const login = (req, res) => {
         return;
       }
       if (hashMatch) {
-        const payload = {
-          username: user.username
-        }; // what will determine our payload.
-        const token = jwt.sign(payload, mysecret); // creates our JWT with a secret and a payload and a hash.
+        // const payload = {
+        //   username: user.username
+        // }; // what will determine our payload.
+        //const token = jwt.sign(payload, mysecret); // creates our JWT with a secret and a payload and a hash.
+        const token = makeToken(user);
         res.json({ token }); // sends the token back to the client
       }
     });
@@ -31,5 +34,5 @@ const login = (req, res) => {
 };
 
 module.exports = {
-  login
+  login,
 };

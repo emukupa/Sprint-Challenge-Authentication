@@ -1,6 +1,6 @@
 const User = require('../models/userModels');
 const bcrypt = require('bcrypt');
-const { makeToken } = require('../utils/middlewares');
+// const { makeToken } = require('../utils/middlewares');
 
 const createUser = (req, res) => {
   // destructure the username and password
@@ -20,8 +20,8 @@ const createUser = (req, res) => {
   user
     .save()
     .then(inserted => {
-      const token = makeToken(inserted);
-      res.status(201).json({ token, inserted });
+      // const token = makeToken(inserted);
+      res.status(201).json(inserted);
     })
     .catch(err => {
       res.status(500).json(err);

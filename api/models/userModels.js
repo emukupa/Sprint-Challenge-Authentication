@@ -12,6 +12,7 @@ const UserSchema = Schema(
     username: {
       type: String,
       unique: true,
+      lowercase: true,
     },
     password: {
       type: String,
@@ -40,13 +41,13 @@ UserSchema.pre('save', function(next) {
     });
 });
 
-UserSchema.methods.checkPassword = function(plainTextPW, callBack) {
+UserSchema.methods.checkPassword = function(plainTextPW, callback) {
   // https://github.com/kelektiv/node.bcrypt.js#usage
   // Fill this method in with the Proper password comparing, bcrypt.compare()
   // Your controller will be responsible for sending the information here for password comparison
   // Once you have the user, you'll need to pass the encrypted pw and the plaintext pw to the compare function
   bcrypt.compare(plainTextPW, this.password, function(err, isValid) {
-    if (err) {
+    if (err || isValid === false) {
       return callback(err);
     }
 
